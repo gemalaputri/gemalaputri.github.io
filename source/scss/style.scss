@@ -309,6 +309,9 @@ figcaption {
   max-width: 400px;
   margin: 40px auto 0;
   font-family: 'Titillium Web', sans-serif;
+  a, a:hover, a:focus {
+    color: #ffffff;
+  }
 }
 
 .homepage-feature {

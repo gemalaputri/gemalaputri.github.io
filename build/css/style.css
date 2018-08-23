@@ -276,6 +276,9 @@ figcaption {
   margin: 40px auto 0;
   font-family: "Titillium Web", sans-serif;
 }
+.social-me a, .social-me a:hover, .social-me a:focus {
+  color: #ffffff;
+}
 
 .homepage-feature {
   height: 100vh;
