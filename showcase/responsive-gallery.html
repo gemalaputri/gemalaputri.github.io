@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Responsive Page</title>
+	<style>
+		body {
+			margin: 0;
+			font-family: sans-serif;
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+		}
+
+		header,
+		footer {
+			background: #333;
+			color: white;
+			padding: 1rem;
+			text-align: center;
+		}
+
+		nav {
+			background: #444;
+			padding: 1rem;
+			text-align: center;
+		}
+
+		nav a {
+			color: white;
+			margin: 0 1rem;
+			text-decoration: none;
+		}
+
+		.content {
+			flex: 1;
+			padding: 2rem;
+			display: flex;
+			flex-direction: row;
+			gap: 2rem;
+			flex-wrap: wrap;
+		}
+
+		.card {
+			flex: 1 1 300px;
+			background: #f0f0f0;
+			padding: 1rem;
+			border-radius: 8px;
+		}
+
+		h1,
+		p {
+			text-align: center;
+			margin-bottom: 1rem;
+		}
+
+		.masonry {
+			column-count: 1;
+			column-gap: 1rem;
+			padding: 1rem;
+		}
+
+		@media (min-width: 600px) {
+
+			nav,
+			.content {
+				flex-direction: column;
+				text-align: center;
+			}
+
+			.masonry {
+				column-count: 2;
+			}
+		}
+
+		@media (min-width: 900px) {
+			.masonry {
+				column-count: 3;
+			}
+		}
+
+		@media (min-width: 1200px) {
+			.masonry {
+				column-count: 4;
+			}
+		}
+
+		.masonry img {
+			width: 100%;
+			display: block;
+			margin-bottom: 1rem;
+			border-radius: 8px;
+		}
+	</style>
+</head>
+<!-- Optional disable right click -->
+
+<body oncontextmenu="return false;" onselectstart="return false;">
+	<header>Responsive Header</header>
+	<nav>
+		<a href="#">Home</a>
+		<a href="#">About</a>
+		<a href="#">Contact</a>
+	</nav>
+	<main>
+		<article>
+			<h1>Responsive Content</h1>
+			<p>This is a simple example of a responsive layout</p>
+		</article>
+
+		<section class="content">
+			<div class="card">Content Box</div>
+		</section>
+		<section>
+			<h1>Image Gallery</h1>
+			<div class="masonry">
+				<img src="https://picsum.photos/300/200?random=1" alt="">
+				<img src="https://picsum.photos/300/400?random=2" alt="">
+				<img src="https://picsum.photos/300/300?random=3" alt="">
+				<img src="https://picsum.photos/300/350?random=4" alt="">
+				<img src="https://picsum.photos/300/250?random=5" alt="">
+				<img src="https://picsum.photos/300/500?random=6" alt="">
+				<img src="https://picsum.photos/300/270?random=7" alt="">
+				<img src="https://picsum.photos/300/380?random=8" alt="">
+			</div>
+		</section>
+	</main>
+	<footer>Responsive Footer</footer>
+
+	<!-- Optional minimal JavaScript -->
+	<script>
+		// Example: Smooth scroll (optional)
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.onclick = function (e) {
+				e.preventDefault();
+				document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+			};
+		});
+	</script>
+</body>
+
+</html>
