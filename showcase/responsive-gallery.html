@@ -62,6 +62,103 @@
 			padding: 1rem;
 		}
 
+		/* Modal overlay */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+    .modal.active {
+      display: flex;
+    }
+
+    /* Modal content */
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+    }
+
+    /* Close button */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      line-height: 32px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    /* Download button */
+    .download-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.85);
+      color: #333;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background: rgba(255,255,255,1);
+    }
+    .download-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+		@media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+      .close-btn {
+        top: 5px;
+        right: 5px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+      .download-btn {
+        bottom: 5px;
+        right: 5px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      .modal-content {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+
 		@media (min-width: 600px) {
 
 			nav,
@@ -116,16 +213,37 @@
 		<section>
 			<h1>Image Gallery</h1>
 			<div class="masonry">
-				<img src="https://picsum.photos/300/200?random=1" alt="">
-				<img src="https://picsum.photos/300/400?random=2" alt="">
-				<img src="https://picsum.photos/300/300?random=3" alt="">
-				<img src="https://picsum.photos/300/350?random=4" alt="">
-				<img src="https://picsum.photos/300/250?random=5" alt="">
-				<img src="https://picsum.photos/300/500?random=6" alt="">
-				<img src="https://picsum.photos/300/270?random=7" alt="">
-				<img src="https://picsum.photos/300/380?random=8" alt="">
+				<img src="https://picsum.photos/id/1015/300/200" data-highres="https://picsum.photos/id/1015/1200/800" alt="Image 1"
+					class="thumbnail" />
+				<img src="https://picsum.photos/id/1016/300/300" data-highres="https://picsum.photos/id/1016/1200/800" alt="Image 2"
+					class="thumbnail" />
+				<img src="https://picsum.photos/id/1018/300/200" data-highres="https://picsum.photos/id/1018/1200/800" alt="Image 3"
+					class="thumbnail" />
+				<img src="https://picsum.photos/id/1019/300/500" data-highres="https://picsum.photos/id/1019/1200/800" alt="Image 4"
+					class="thumbnail" />
+				<img src="https://picsum.photos/id/1020/300/200" data-highres="https://picsum.photos/id/1020/1200/800" alt="Image 5"
+					class="thumbnail" />
+				<img src="https://picsum.photos/id/1021/300/600" data-highres="https://picsum.photos/id/1021/1200/800" alt="Image 6"
+					class="thumbnail" />
 			</div>
 		</section>
+		<div class="modal" id="imageModal">
+			<div class="modal-content">
+				<!-- Close Button -->
+				<button class="close-btn" id="closeModal" aria-label="Close preview">&times;</button>
+		
+				<!-- High-Resolution Image Placeholder -->
+				<img src="" alt="High Resolution" id="highResImage" />
+		
+				<!-- Download Button -->
+				<a href="#" download id="downloadBtn" class="download-btn">
+					<svg viewBox="0 0 24 24">
+						<path d="M5 20h14v-2H5v2zm7-18v12l4-4h-3V2h-2v8H8l4 4z" />
+					</svg>
+					Download
+				</a>
+			</div>
+		
 	</main>
 	<footer>Responsive Footer</footer>
 
@@ -138,6 +256,47 @@
 				document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
 			};
 		});
+
+		// Grab DOM elements
+			const thumbnails = document.querySelectorAll('.thumbnail');
+			const modal = document.getElementById('imageModal');
+			const closeBtn = document.getElementById('closeModal');
+			const highResImage = document.getElementById('highResImage');
+			const downloadBtn = document.getElementById('downloadBtn');
+
+			// Function to open modal with the correct high-res image
+			function openModal(highResUrl) {
+				highResImage.src = highResUrl;
+				downloadBtn.href = highResUrl;
+				modal.classList.add('active');
+			}
+
+			// Attach click listener to each thumbnail
+			thumbnails.forEach((thumb) => {
+				thumb.addEventListener('click', () => {
+					const highResUrl = thumb.getAttribute('data-highres');
+					openModal(highResUrl);
+				});
+			});
+
+			// Close modal on close button click
+			closeBtn.addEventListener('click', () => {
+				modal.classList.remove('active');
+			});
+
+			// Close modal if user clicks outside the image
+			modal.addEventListener('click', (e) => {
+				if (e.target === modal) {
+					modal.classList.remove('active');
+				}
+			});
+
+			// Close modal on Escape key
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && modal.classList.contains('active')) {
+					modal.classList.remove('active');
+				}
+			});
 	</script>
 </body>
 
