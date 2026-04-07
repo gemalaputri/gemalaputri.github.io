@@ -290,6 +290,10 @@ figcaption {
   font-size: 4rem;
 }
 
+.mb {
+  margin-bottom: 1.5rem;
+}
+
 @media (min-width: 768px) {
   .container {
     width: 750px;
